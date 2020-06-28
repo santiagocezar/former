@@ -3,18 +3,28 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Encuesta</title>
+    <link href="https://fonts.googleapis.com/css2?family=Montserrat:wght@400;600;700;900&display=swap" rel="stylesheet"> 
+    <link rel="stylesheet" href="style.css">
 </head>
 <body>
-    <h1>Cual es mejor?</h1>
-    <form action="/" method="post">
-        <input type="radio" name="1" id="a">
-        <label for="a">Rojo</label>
-        <br>
-        <input type="radio" name="1" id="b">
-        <label for="b">Verde</label>
-        <br>
-        <input type="radio" name="1" id="c">
-        <label for="c">Azul</label>
-    </form>
+    <img src="logo.svg" alt="logo" width="48" id="logo">
+    <main>
+        <h1>Mega encuesta</h1>
+        <form action="/" method="post">
+            <h2>Cual es mejor?</h2>
+            <label radio for="a">
+                <input type="radio" name="1" id="a">
+                <span>Rojo</span>
+            </label>
+            <label radio for="b">
+                <input type="radio" name="1" id="b">
+                <span>Verde</span>
+            </label>
+            <label radio for="c">
+                <input type="radio" name="1" id="c">
+                <span>Azul</span>
+            </label>
+        </form>
+    </main>
 </body>
 </html>
