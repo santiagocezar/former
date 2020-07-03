@@ -1,0 +1,23 @@
+{
+    "title": "re piola el titulo",
+    "questions": [{
+        "title": "Cual es mejor?",
+        "type": "radio",
+        "info": "Son colores nomas pero igual",
+        "opts": ["Doouuu", "Verde", "AAA"]
+    }, {
+        "title": "Cual es peor?",
+        "type": "checkbox",
+        "info": "Son colores tambi\u00e9n",
+        "opts": ["Rojo", "Amarillo", "Verde"]
+    }, {
+        "title": "Texto tambi\u00e9n",
+        "type": "text",
+        "info": "niiiiiice"
+    }, {
+        "title": "Te gusta esta app?",
+        "type": "buttongroup",
+        "info": "en ese caso dale like",
+        "opts": ["Si", false, "A veces"]
+    }]
+}

@@ -11,5 +11,13 @@ setuptools.setup(
     url="https://encuestas.svcezar.com.ar",
     packages=setuptools.find_packages(),
     classifiers=[],
+    include_package_data=True,
+    install_requires=[
+        'Flask==1.1.1',
+        'mistune==2.0.0a4',
+        'watchdog==0.10.3',
+        'waitress==1.4.4',
+        'flask_sqlalchemy==2.4.1'
+    ],
     python_requires='>=3.6',
 )

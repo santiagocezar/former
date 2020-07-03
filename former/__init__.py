@@ -1,8 +1,10 @@
 from flask import Flask, request
 from watchdog.observers import Observer
 from watchdog.events import FileSystemEventHandler, FileModifiedEvent
+from waitress import serve
 
 import former.formrender as formrender
+import former.save
 import time
 
 app = Flask(__name__, static_url_path='', static_folder='static')
@@ -24,11 +26,10 @@ def index():
 
 @app.route('/post', methods=['POST'])
 def post():
-    print(request.form)
-    print(formrender.tree)
+    save.parse(dict(request.form))
     return 'ok'
 
-def run(post_url, src_file):
+def run(post_url = '/post', src_file = 'test.md'):
     global document
     document = formrender.build(post_url, src_file) 
 
@@ -37,6 +38,6 @@ def run(post_url, src_file):
     observer.schedule(handler, src_file)
     observer.start()
 
-    app.run()
+    serve(app, host='127.0.0.1', port=5000)
     observer.stop()
     observer.join()

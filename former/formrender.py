@@ -5,6 +5,7 @@ from enum import Enum
 
 tree = {}
 
+
 class FormRenderer(mistune.HTMLRenderer):
     RADIO = re.compile(r'^\((.*)\) *(.*)')
     CHECKBOX = re.compile(r'^\[ ?\] *(.*)')
