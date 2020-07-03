@@ -1,43 +1,38 @@
-from flask import Flask, request
-from watchdog.observers import Observer
-from watchdog.events import FileSystemEventHandler, FileModifiedEvent
+from flask import Flask, request, send_from_directory
 from waitress import serve
-
-import former.formrender as formrender
-import former.save
+import os
 import time
 
-app = Flask(__name__, static_url_path='', static_folder='static')
+home = os.environ['HOME']
 
-document = ''
+import former.save
+from former.formparser import parse
 
-class SourceEventHandler(FileSystemEventHandler):
-    def __init__(self, post_url, src_file):
-        self.post = post_url
-        self.src = src_file
+app = Flask(__name__, static_url_path='/static', static_folder='static')
 
-    def on_modified(self, event: FileModifiedEvent):
-        global document
-        document = formrender.build(self.post, self.src)
+cache = {}
 
-@app.route('/')
-def index():
-    return document
+@app.route('/favicon.ico') 
+def favicon(): 
+    return send_from_directory(os.path.join(app.root_path, 'static'), 'favicon.ico')
 
-@app.route('/post', methods=['POST'])
-def post():
-    save.parse(dict(request.form))
-    return 'ok'
+@app.route('/<form>', methods=['GET', 'POST'])
+def index(form):
+    if request.method == 'POST':
+        if form not in cache:
+            return 'form doesn\'t exist'
+        save.parse(form, cache[form][0], dict(request.form))
+        return cache[form][1]
+    else:
+        if form not in cache:
+            path = f'{home}/.former/{form}.yml'
+            print(path)
+            if os.path.exists(path) and os.path.exists(path):
+                cache[form] = parse(path)
+            else:
+                return 'Form not found'
+        return cache[form][1]
 
-def run(post_url = '/post', src_file = 'test.md'):
-    global document
-    document = formrender.build(post_url, src_file) 
 
-    handler = SourceEventHandler(post_url, src_file)
-    observer = Observer()
-    observer.schedule(handler, src_file)
-    observer.start()
-
+def run():
     serve(app, host='127.0.0.1', port=5000)
-    observer.stop()
-    observer.join()
